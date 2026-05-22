@@ -38,4 +38,11 @@ public class GlobalExceptionHandler {
                 e.getMessage(), HttpStatus.UNAUTHORIZED.value()
         ));
     }
+
+    @ExceptionHandler(ProjectAlreadyExistsException.class)
+    public ResponseEntity<ApiErrorResponse> handleProjectAlreadyExists(ProjectAlreadyExistsException e) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ApiErrorResponse(
+                e.getMessage(), HttpStatus.CONFLICT.value()
+        ));
+    }
 }
