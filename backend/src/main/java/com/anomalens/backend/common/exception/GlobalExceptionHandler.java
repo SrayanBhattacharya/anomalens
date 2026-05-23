@@ -2,6 +2,7 @@ package com.anomalens.backend.common.exception;
 
 import com.anomalens.backend.auth.exception.EmailAlreadyExistsException;
 import com.anomalens.backend.auth.exception.UsernameAlreadyExistsException;
+import com.anomalens.backend.projects.entity.Project;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -43,6 +44,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handleProjectAlreadyExists(ProjectAlreadyExistsException e) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(new ApiErrorResponse(
                 e.getMessage(), HttpStatus.CONFLICT.value()
+        ));
+    }
+
+    @ExceptionHandler(ProjectNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleProjectNotFound(ProjectNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiErrorResponse(
+                e.getMessage(), HttpStatus.NOT_FOUND.value()
         ));
     }
 }
