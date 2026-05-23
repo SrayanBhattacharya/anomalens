@@ -3,6 +3,7 @@ package com.anomalens.backend.projects.controller;
 import com.anomalens.backend.auth.security.CustomUserDetails;
 import com.anomalens.backend.projects.dto.CreateProjectRequest;
 import com.anomalens.backend.projects.dto.ProjectResponse;
+import com.anomalens.backend.projects.dto.UpdateProjectRequest;
 import com.anomalens.backend.projects.service.ProjectService;
 import com.anomalens.backend.users.entity.User;
 import jakarta.validation.Valid;
@@ -45,10 +46,36 @@ public class ProjectController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProjectResponse> getProject(Authentication authentication, @PathVariable Long id) {
+    public ResponseEntity<ProjectResponse> getProject(
+            Authentication authentication,
+            @PathVariable Long id
+    ) {
         User owner = getOwner(authentication);
 
         ProjectResponse project = projectService.getProject(owner, id);
         return ResponseEntity.status(HttpStatus.OK).body(project);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProjectResponse> updateProject(
+            @Valid @RequestBody UpdateProjectRequest request,
+            Authentication authentication,
+            @PathVariable Long id
+    ) {
+        User owner = getOwner(authentication);
+
+        ProjectResponse project = projectService.updateProject(owner, id, request);
+        return ResponseEntity.status(HttpStatus.OK).body(project);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProject(
+            Authentication authentication,
+            @PathVariable Long id
+    ) {
+        User owner = getOwner(authentication);
+
+        projectService.deleteProject(owner, id);
+        return ResponseEntity.noContent().build();
     }
 }
