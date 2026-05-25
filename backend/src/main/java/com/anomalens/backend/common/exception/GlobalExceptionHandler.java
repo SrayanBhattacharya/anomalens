@@ -53,4 +53,11 @@ public class GlobalExceptionHandler {
                 e.getMessage(), HttpStatus.NOT_FOUND.value()
         ));
     }
+
+    @ExceptionHandler(DatasetNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleDatasetNotFound(DatasetNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiErrorResponse(
+                e.getMessage(), HttpStatus.NOT_FOUND.value()
+        ));
+    }
 }
